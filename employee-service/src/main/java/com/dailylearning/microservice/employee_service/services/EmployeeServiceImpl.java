@@ -20,8 +20,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
-    private final RestTemplate restTemplate;
-    private  AddressAPIClient addressAPIClient;
+
+//    private final RestTemplate restTemplate;
+    private final AddressAPIClient addressAPIClient;
 
 /*    @Autowired
     public void setAddressAPIClient(AddressAPIClient addressAPIClient) {
@@ -29,10 +30,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }*/
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper, RestTemplate restTemplate, AddressAPIClient addressAPIClient) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper, AddressAPIClient addressAPIClient) {
         this.employeeRepository = employeeRepository;
         this.modelMapper = modelMapper;
-        this.restTemplate = restTemplate;
+//        this.restTemplate = restTemplate;
+
         this.addressAPIClient = addressAPIClient;
     }
 
@@ -51,8 +53,9 @@ public class EmployeeServiceImpl implements EmployeeService {
          so service communication need to be introduced here only*/
         // 01. Using RestTemplate
 //       AddressResponse addressResponse = restTemplate.getForObject("http://localhost:8081/address/1", AddressResponse.class);
-        AddressResponse addressResponse = addressAPIClient.callAddressById(1);
-       employeeResponseDto.setAddressResponseDto(addressResponse.getAddressResponseDto());
+
+       AddressResponse addressResponse = addressAPIClient.callAddressById(1); // call using feign client
+        employeeResponseDto.setAddressResponseDto(addressResponse.getAddressResponseDto());
 
         return employeeResponseDto;
     }
