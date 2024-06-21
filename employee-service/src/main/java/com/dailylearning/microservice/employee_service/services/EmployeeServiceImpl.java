@@ -1,6 +1,7 @@
 package com.dailylearning.microservice.employee_service.services;
 
 import com.dailylearning.microservice.employee_service.dto.EmployeeResponseDto;
+import com.dailylearning.microservice.employee_service.feignclient.AddressAPIClient;
 import com.dailylearning.microservice.employee_service.model.Employee;
 import com.dailylearning.microservice.employee_service.otherservices.AddressResponse;
 import com.dailylearning.microservice.employee_service.otherservices.AddressResponseDto;
@@ -19,14 +20,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
-    private final RestTemplate restTemplate;
+//    private final RestTemplate restTemplate;
+    private final AddressAPIClient addressAPIClient;
 
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper, RestTemplate restTemplate) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper, AddressAPIClient addressAPIClient) {
         this.employeeRepository = employeeRepository;
         this.modelMapper = modelMapper;
-        this.restTemplate = restTemplate;
+//        this.restTemplate = restTemplate;
+        this.addressAPIClient = addressAPIClient;
     }
 
     @Override
@@ -43,8 +46,9 @@ public class EmployeeServiceImpl implements EmployeeService {
          now address also needed in response
          so service communication need to be introduced here only*/
         // 01. Using RestTemplate
-       AddressResponse addressResponse = restTemplate.getForObject("http://localhost:8081/address/1", AddressResponse.class);
-       employeeResponseDto.setAddressResponseDto(addressResponse.getAddressResponseDto());
+//       AddressResponse addressResponse = restTemplate.getForObject("http://localhost:8081/address/1", AddressResponse.class);
+       AddressResponse addressResponse = addressAPIClient.callAddressById(1); // call using feign client
+        employeeResponseDto.setAddressResponseDto(addressResponse.getAddressResponseDto());
 
         return employeeResponseDto;
     }
