@@ -9,14 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="contact-service" />
         <module name="address-service" />
-        <module name="discovery-service" />
+        <module name="kafka-subscriber" />
         <module name="gateway-service" />
+        <module name="kafka-producer" />
+        <module name="discovery-service" />
         <module name="employee-service" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="discovery-service" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -25,6 +24,8 @@
       <module name="discovery-service" options="-parameters" />
       <module name="employee-service" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
+      <module name="kafka-producer" options="-parameters" />
+      <module name="kafka-subscriber" options="-parameters" />
     </option>
   </component>
 </project>
